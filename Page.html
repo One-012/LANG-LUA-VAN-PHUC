@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="notranslate">
+<html lang="vi" class="notranslate scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -9,722 +9,395 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Dancing+Script:wght@400;700&family=Nunito:wght@300;400;600&display=swap"
         rel="stylesheet">
 
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vp-cream': '#FDFBF7',
+                        'vp-red': '#8B0000',
+                        'vp-gold': '#B8860B',
+                        'vp-dark': '#2c2c2c',
+                    },
+                    fontFamily: {
+                        'heading': ['Playfair Display', 'serif'],
+                        'script': ['Dancing Script', 'cursive'],
+                        'body': ['Nunito', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'silk': '20px 20px 0px rgba(184, 134, 11, 0.2)',
+                        'glow': '0 0 30px rgba(184, 134, 11, 0.4)',
+                    },
+                    animation: {
+                        'wave': 'wave 25s linear infinite',
+                        'shimmer': 'shimmer 2.5s infinite linear',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        wave: { '0%': { backgroundPosition: '0 0' }, '100%': { backgroundPosition: '120px 0' } },
+                        shimmer: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(100%)' } },
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root {
-            /* BẢNG MÀU SANG TRỌNG */
-            --text-primary: #2c2c2c;
-            --heading-color: #8B0000;
-            --accent-gold: #B8860B;
-            --sidebar-width: 280px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            background-color: #FDFBF7;
-            color: var(--text-primary);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            line-height: 1.9;
             cursor: none;
-            /* Ẩn chuột mặc định */
         }
 
-        /* --- 1. HIỆU ỨNG DẢI LỤA (ĐÃ CHỈNH MÀU ĐẬM HƠN ĐỂ DỄ THẤY) --- */
-        .ribbon-container {
+        /* --- CON TRỎ CHUỘT: CUỘN LỤA VÀNG (MÔ PHỎNG ẢNH GỬI) --- */
+        #cursor {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            /* Đẩy lên sát nội dung hơn */
-            overflow: hidden;
-        }
-
-        .ribbon {
-            position: absolute;
-            /* Màu sắc rõ ràng hơn: Đỏ - Vàng - Trong suốt */
-            background: linear-gradient(to bottom,
-                    rgba(255, 255, 255, 0),
-                    rgba(139, 0, 0, 0.25),
-                    /* Đỏ đậm hơn */
-                    rgba(184, 134, 11, 0.3),
-                    /* Vàng đậm hơn */
-                    rgba(255, 255, 255, 0));
-            filter: blur(25px);
-            /* Giảm độ mờ một chút để nét hơn */
-            border-radius: 40%;
-            opacity: 0.8;
-            /* Tăng độ hiển thị */
-        }
-
-        /* Vị trí các dải lụa lấp vào chỗ trống */
-        .ribbon-1 {
-            width: 300px;
-            height: 120vh;
-            left: 5%;
-            top: -20%;
-            transform: rotate(15deg);
-            animation: float 15s ease-in-out infinite;
-        }
-
-        .ribbon-2 {
-            width: 400px;
-            height: 120vh;
-            right: -5%;
-            top: -10%;
-            transform: rotate(-10deg);
-            animation: floatReverse 20s ease-in-out infinite;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(184, 134, 11, 0.3), rgba(255, 255, 255, 0));
-        }
-
-        .ribbon-3 {
-            width: 600px;
-            height: 600px;
-            left: -200px;
-            bottom: 10%;
-            transform: rotate(45deg);
-            background: radial-gradient(circle, rgba(139, 0, 0, 0.15), transparent);
-            animation: pulseRibbon 10s infinite;
-        }
-
-        /* Animation cho lụa */
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(15deg) scale(1);
-            }
-
-            50% {
-                transform: translateY(50px) rotate(10deg) scale(1.05);
-            }
-
-            100% {
-                transform: translateY(0) rotate(15deg) scale(1);
-            }
-        }
-
-        @keyframes floatReverse {
-            0% {
-                transform: translateY(0) rotate(-10deg);
-            }
-
-            50% {
-                transform: translateY(-50px) rotate(-15deg);
-            }
-
-            100% {
-                transform: translateY(0) rotate(-10deg);
-            }
-        }
-
-        @keyframes pulseRibbon {
-
-            0%,
-            100% {
-                transform: scale(1) rotate(45deg);
-                opacity: 0.6;
-            }
-
-            50% {
-                transform: scale(1.1) rotate(45deg);
-                opacity: 0.9;
-            }
-        }
-
-
-        /* --- 2. CÁC THÀNH PHẦN KHÁC (GIỮ NGUYÊN) --- */
-        .scroll-progress-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 0%;
-            height: 6px;
-            background: linear-gradient(to right, var(--accent-gold), #FFD700);
             z-index: 9999;
-            box-shadow: 0 -2px 10px rgba(184, 134, 11, 0.3);
+            pointer-events: none;
+            width: 60px;
+            height: 60px;
+
+            /* SVG MỚI: Vẽ lại hình cuộn vải (Scroll) 
+               - Phần cuộn tròn bên phải.
+               - Phần vải trải ra bên trái.
+               - Họa tiết cành cây/hoa văn trên vải.
+               - Màu sắc: Gold (#FFD700, #DAA520).
+            */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFD700;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23DAA520;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3C!-- Phần vải trải ra --%3E%3Cpath d='M10 12 H50 V52 H10 Q14 32 10 12 Z' fill='url(%23grad)' stroke='%23B8860B' stroke-width='1'/%3E%3C!-- Họa tiết cành cây trên vải --%3E%3Cpath d='M20 52 Q25 40 35 35 M35 35 L45 30 M35 35 L42 42 M20 25 L30 30' stroke='%23FDFBF7' stroke-width='2' stroke-linecap='round' fill='none' opacity='0.6'/%3E%3C!-- Trục cuộn bên phải --%3E%3Crect x='48' y='8' width='10' height='48' rx='3' fill='%23B8860B'/%3E%3Crect x='50' y='10' width='6' height='44' rx='2' fill='%23FFD700'/%3E%3C!-- Đầu trục gỗ --%3E%3Crect x='51' y='4' width='4' height='4' fill='%238B4513'/%3E%3Crect x='51' y='56' width='4' height='4' fill='%238B4513'/%3E%3C/svg%3E");
+
+            background-size: contain;
+            background-repeat: no-repeat;
+            /* Xoay nhẹ để giống tư thế đang cầm hoặc trải ra */
+            transform: translate(-50%, -50%) rotate(-10deg);
+            transition: transform 0.15s ease-out;
+
+            /* Hiệu ứng phát sáng vàng */
+            filter: drop-shadow(2px 4px 6px rgba(184, 134, 11, 0.4));
         }
 
-        /* CON TRỎ CHUỘT LỤA */
         .cursor-trail {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 25px;
-            height: 25px;
-            background: rgba(184, 134, 11, 0.5);
-            border-radius: 50%;
+            z-index: 9998;
             pointer-events: none;
-            z-index: 10000;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.2);
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease-out;
             filter: blur(4px);
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
         }
 
-        .cursor-follower {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 15px;
-            height: 15px;
-            background: rgba(139, 0, 0, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            filter: blur(6px);
-            transform: translate(-50%, -50%);
-        }
-
-        h1,
-        h2,
-        h3 {
-            font-family: 'Cinzel', serif;
-            text-transform: uppercase;
-            color: var(--heading-color);
-        }
-
-        p {
-            font-size: 1.05rem;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        strong {
-            color: var(--heading-color);
-            font-weight: 700;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: var(--sidebar-width);
-            height: 100vh;
-            background: rgba(253, 251, 247, 0.95);
-            backdrop-filter: blur(15px);
-            border-right: 1px solid rgba(224, 218, 204, 0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 40px;
-            z-index: 100;
-            transform: translateX(-100%);
-            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        @media (min-width: 1024px) {
-            .sidebar {
-                transform: translateX(0);
-            }
-        }
-
-        .nav-header {
-            margin-bottom: 50px;
-            color: var(--heading-color);
-            font-family: 'Cinzel';
-            font-size: 1.8rem;
-            font-weight: bold;
-            border-bottom: 2px solid var(--accent-gold);
-            display: inline-block;
-            width: 60px;
-            padding-bottom: 10px;
-        }
-
-        .nav-item {
-            margin: 15px 0;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: 0.4s;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            text-decoration: none;
-            color: #555;
-            display: block;
-            position: relative;
-            left: 0;
-        }
-
-        .nav-item:hover,
-        .nav-item.active {
-            opacity: 1;
-            color: var(--heading-color);
-            left: 15px;
-            font-weight: bold;
-        }
-
-        .nav-item.active::before {
-            content: '❧';
-            position: absolute;
-            left: -30px;
-            color: var(--accent-gold);
-            font-size: 1.4rem;
-            animation: pulse 2s infinite;
-        }
-
-        .main-content {
-            margin-left: 0;
-            transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        @media (min-width: 1024px) {
-            .main-content {
-                margin-left: var(--sidebar-width);
-            }
-        }
-
-        /* BANNER */
-        .hero {
-            height: 100vh;
-            width: 100%;
-            position: relative;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('img/banner.jpg');
-            background-size: cover;
-            background-position: center left;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, transparent 20%, rgba(253, 251, 247, 0.4) 50%, rgba(253, 251, 247, 0.85) 100%);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            width: 55%;
-            padding-right: 5%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .hero-title-small {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(2rem, 3.5vw, 3rem);
-            color: var(--heading-color);
-            margin-bottom: -10px;
-            letter-spacing: 5px;
-            opacity: 0;
-            font-weight: 400;
-        }
-
-        .hero-title-large {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(3.5rem, 7vw, 7rem);
-            color: var(--heading-color);
-            margin-top: 0;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            white-space: nowrap;
-            text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.8);
-            opacity: 0;
-            font-weight: 700;
-        }
-
-        .hero-subtitle-group {
-            position: relative;
-            display: inline-block;
-            padding: 0 40px;
-            margin-bottom: 40px;
-            opacity: 0;
-        }
-
-        .hero-subtitle {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.1rem, 1.5vw, 1.6rem);
-            color: #444;
-            font-weight: 500;
-        }
-
-        .hero-subtitle-group::before,
-        .hero-subtitle-group::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 30px;
-            height: 2px;
-            background: var(--accent-gold);
-        }
-
-        .hero-subtitle-group::before {
-            left: 0;
-        }
-
-        .hero-subtitle-group::after {
-            right: 0;
-        }
-
-        .hero-quote {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: clamp(1rem, 1.2vw, 1.3rem);
-            color: #666;
-            opacity: 0;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .hero {
-                justify-content: center;
-            }
-
-            .hero-content {
-                width: 95%;
-                padding-right: 0;
-            }
-
-            .hero-bg {
-                background-position: center;
-                filter: brightness(0.5);
-            }
-
-            .hero-overlay {
-                background: rgba(0, 0, 0, 0.2);
-            }
-
-            .hero-title-small,
-            .hero-title-large {
-                color: #fff;
-                text-shadow: 0 0 10px #000;
-            }
-
-            .hero-title-large {
-                white-space: normal;
-                font-size: 3.5rem;
-            }
-
-            .hero-subtitle {
-                color: #eee;
-            }
-
-            .hero-quote {
-                color: #ddd;
-            }
-        }
-
-        .section {
-            min-height: 100vh;
-            padding: 120px 8%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            border-bottom: 1px dashed rgba(184, 134, 11, 0.3);
-        }
-
-        .section-title {
-            font-size: 3.5rem;
-            color: var(--heading-color);
-            margin-bottom: 60px;
-            text-align: left;
-            position: relative;
-            padding-bottom: 25px;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(to right, var(--accent-gold), transparent);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 100px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        @media (min-width: 1024px) {
-            .content-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .highlight-box {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 35px;
-            border-left: 5px solid var(--heading-color);
-            box-shadow: 0 15px 40px rgba(139, 0, 0, 0.08);
-            font-family: 'Playfair Display';
-            font-style: italic;
-            font-size: 1.3rem;
-            color: #444;
-            margin: 40px 0;
-            border-radius: 0 10px 10px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .highlight-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
+        .wave-bg {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23B8860B' stroke-width='1.5' opacity='0.35'%3E%3Cpath d='M0 0l60 60 60-60M0 120l60-60 60 60'/%3E%3Cpath d='M60 0v120M0 60h120' stroke-width='1' opacity='0.7'/%3E%3Cpath d='M30 30l30-30 30 30-30 30zM30 90l30-30 30 30-30 30z' fill='%23B8860B' fill-opacity='0.15'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 120px 120px;
+            background-repeat: repeat;
             width: 200%;
-            height: 200%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
-            transform: rotate(45deg);
-            animation: shimmerBox 6s infinite linear;
-            opacity: 0.3;
         }
 
-        @keyframes shimmerBox {
-            0% {
-                transform: translateX(-100%) rotate(45deg);
-            }
-
-            100% {
-                transform: translateX(100%) rotate(45deg);
-            }
-        }
-
-        .img-wrapper {
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-            box-shadow: 25px 25px 0 rgba(139, 0, 0, 0.15);
-            transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .img-wrapper img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            transition: 0.6s;
+        img {
             display: block;
+            max-width: 100%;
+            height: auto;
         }
 
-        .img-wrapper:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 15px 15px 0 rgba(184, 134, 11, 0.3);
+        ::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .img-wrapper:hover img {
-            filter: brightness(1.1);
+        ::-webkit-scrollbar-thumb {
+            background: #B8860B;
+            border-radius: 3px;
         }
 
-        .img-caption {
-            margin-top: 20px;
-            font-size: 1rem;
-            color: #888;
-            font-style: italic;
-            text-align: center;
-            letter-spacing: 1px;
-            font-family: 'Playfair Display';
-        }
-
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #FDFBF7;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        .loader h2 {
-            color: var(--heading-color);
-            letter-spacing: 8px;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-        }
-
-        .loader-percent {
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
-            color: var(--accent-gold);
-            font-weight: bold;
-        }
-
-        .progress-bar-container {
-            width: 250px;
-            height: 4px;
-            background: rgba(184, 134, 11, 0.1);
-            margin-top: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(to right, var(--accent-gold), var(--heading-color));
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
     </style>
 </head>
 
-<body>
+<body
+    class="bg-vp-cream text-vp-dark font-body leading-loose selection:bg-vp-gold selection:text-white overflow-x-hidden">
 
-    <div class="scroll-progress-bar"></div>
+    <div id="cursor"></div>
+    <div class="cursor-trail w-10 h-10 border border-vp-gold/30"></div>
+    <div class="cursor-trail w-6 h-6 bg-vp-gold/10"></div>
 
-    <div class="cursor-trail"></div>
-    <div class="cursor-follower"></div>
-    <div class="cursor-follower"></div>
-    <div class="cursor-follower"></div>
-    <div class="cursor-follower"></div>
-
-    <div class="ribbon-container">
-        <div class="ribbon ribbon-1"></div>
-        <div class="ribbon ribbon-2"></div>
-        <div class="ribbon ribbon-3"></div>
+    <div class="fixed inset-0 pointer-events-none -z-10 flex flex-col h-full justify-between overflow-hidden">
+        <div class="wave-bg h-40 animate-wave opacity-30"></div>
+        <div
+            class="wave-bg h-64 animate-wave [animation-direction:reverse] [animation-duration:35s] opacity-20 scale-y-[-1] translate-x-[-50px]">
+        </div>
+        <div class="wave-bg h-48 animate-wave [animation-duration:25s] opacity-10"></div>
     </div>
 
-    <div class="loader" id="loader">
-        <h2>VAN PHUC SILK</h2>
-        <div class="loader-percent">0%</div>
-        <div class="progress-bar-container">
-            <div class="progress" id="progress"></div>
+    <div
+        class="scroll-progress fixed bottom-0 left-0 h-1.5 bg-gradient-to-r from-vp-gold to-yellow-300 z-50 w-0 shadow-[0_-2px_10px_rgba(184,134,11,0.5)]">
+    </div>
+
+    <div id="loader"
+        class="fixed inset-0 bg-vp-cream z-[9999] flex flex-col justify-center items-center transition-opacity duration-700">
+        <h2 class="text-vp-red font-heading font-bold text-4xl tracking-[0.3em] mb-4 animate-pulse">VAN PHUC SILK</h2>
+        <div class="loader-percent text-vp-gold font-heading text-6xl font-bold">0%</div>
+        <div class="w-64 h-1 bg-vp-gold/20 mt-6 rounded-full overflow-hidden">
+            <div id="progress"
+                class="h-full w-0 bg-gradient-to-r from-vp-gold to-vp-red rounded-full transition-all duration-100">
+            </div>
         </div>
     </div>
 
-    <nav class="sidebar">
-        <div class="nav-header">MỤC LỤC</div>
-        <a href="#intro" class="nav-item">01. Di sản văn hóa</a>
-        <a href="#history" class="nav-item">02. Hành trình lịch sử</a>
-        <a href="#technique" class="nav-item">03. Kỹ thuật tinh xảo</a>
-        <a href="#awards" class="nav-item">04. Danh hiệu & Vị thế</a>
-        <a href="#preservation" class="nav-item">05. Dòng tơ không đứt</a>
+    <nav
+        class="sidebar fixed top-0 left-0 w-[280px] h-screen bg-vp-cream/95 backdrop-blur-md border-r border-vp-gold/30 flex flex-col justify-center pl-10 z-40 -translate-x-full lg:translate-x-0 transition-transform duration-700 shadow-2xl">
+        <div class="mb-12 text-vp-red font-heading text-3xl font-bold border-b-2 border-vp-gold inline-block pb-2 w-16">
+            MỤC LỤC</div>
+        <div class="space-y-6">
+            <a href="#intro"
+                class="nav-item block font-heading text-xl text-gray-600 hover:text-vp-red hover:font-bold hover:translate-x-3 transition-all duration-300 relative group">01.
+                Di sản văn hóa<span
+                    class="absolute -left-6 opacity-0 group-hover:opacity-100 text-vp-gold transition-opacity">❧</span></a>
+            <a href="#history"
+                class="nav-item block font-heading text-xl text-gray-600 hover:text-vp-red hover:font-bold hover:translate-x-3 transition-all duration-300 relative group">02.
+                Hành trình lịch sử<span
+                    class="absolute -left-6 opacity-0 group-hover:opacity-100 text-vp-gold transition-opacity">❧</span></a>
+            <a href="#technique"
+                class="nav-item block font-heading text-xl text-gray-600 hover:text-vp-red hover:font-bold hover:translate-x-3 transition-all duration-300 relative group">03.
+                Kỹ thuật tinh xảo<span
+                    class="absolute -left-6 opacity-0 group-hover:opacity-100 text-vp-gold transition-opacity">❧</span></a>
+            <a href="#awards"
+                class="nav-item block font-heading text-xl text-gray-600 hover:text-vp-red hover:font-bold hover:translate-x-3 transition-all duration-300 relative group">04.
+                Danh hiệu & Vị thế<span
+                    class="absolute -left-6 opacity-0 group-hover:opacity-100 text-vp-gold transition-opacity">❧</span></a>
+            <a href="#preservation"
+                class="nav-item block font-heading text-xl text-gray-600 hover:text-vp-red hover:font-bold hover:translate-x-3 transition-all duration-300 relative group">05.
+                Dòng tơ không đứt<span
+                    class="absolute -left-6 opacity-0 group-hover:opacity-100 text-vp-gold transition-opacity">❧</span></a>
+        </div>
     </nav>
 
-    <div class="main-content">
+    <div class="main-content ml-0 lg:ml-[280px] transition-all duration-700">
+        <section
+            class="hero relative h-screen w-full flex justify-center md:justify-end items-center overflow-hidden bg-vp-cream">
+            <div class="hero-bg absolute inset-0">
+                <img src="img/banner.jpg" alt="Banner Làng Lụa"
+                    class="w-full h-full object-cover object-left md:object-center scale-110">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-vp-cream/30 to-vp-cream/90"></div>
 
-        <section class="hero">
-            <div class="hero-bg"></div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h2 class="hero-title-small">LÀNG LỤA</h2>
-                <h1 class="hero-title-large">VẠN PHÚC</h1>
-                <div class="hero-subtitle-group">
-                    <div class="hero-subtitle">
-                        Di sản văn hoá Việt<br>và nghệ thuật dệt lụa nghìn năm
-                    </div>
+            <div
+                class="hero-content relative z-10 w-full md:w-[55%] pr-0 md:pr-[5%] text-center flex flex-col items-center">
+
+                <h2
+                    class="hero-title-small font-script text-3xl md:text-5xl text-vp-red font-bold mb-2 opacity-0 -rotate-2">
+                    Làng Lụa
+                </h2>
+
+                <h1
+                    class="hero-title-large font-heading text-6xl md:text-[7.5rem] text-vp-red font-bold leading-none whitespace-normal md:whitespace-nowrap drop-shadow-sm mb-6 opacity-0 uppercase tracking-wide">
+                    VẠN PHÚC
+                </h1>
+
+                <div class="hero-subtitle-group relative inline-block px-12 mb-10 opacity-0">
+                    <div class="absolute top-1/2 left-0 w-12 h-[1px] bg-vp-gold"></div>
+                    <div class="font-heading text-xl md:text-3xl text-gray-800 italic">Di sản văn hoá Việt & Nghệ thuật
+                        dệt lụa</div>
+                    <div class="absolute top-1/2 right-0 w-12 h-[1px] bg-vp-gold"></div>
                 </div>
-                <p class="hero-quote">
-                    "Di sản không nằm trong quá khứ – mà đang được dệt tiếp hôm nay"
-                </p>
+                <p class="hero-quote font-script text-2xl text-gray-600 opacity-0 mt-4">"Di sản không nằm trong quá khứ
+                    – mà đang được dệt tiếp hôm nay"</p>
             </div>
         </section>
 
-        <section id="intro" class="section">
-            <h2 class="section-title">Di Sản Văn Hóa Việt</h2>
-            <div class="content-grid">
-                <div class="text-col" data-speed="1.15">
-                    <p>Giữa nhịp sống hiện đại của Hà Nội, <strong>Làng lụa Vạn Phúc</strong> vẫn vang lên tiếng khung
-                        cửi, bền bỉ gìn giữ một nghề thủ công đã tồn tại hơn nghìn năm.</p>
-                    <div class="highlight-box">
+        <section id="intro"
+            class="section min-h-screen py-32 px-8 md:px-16 flex flex-col justify-center border-b border-vp-gold/20 border-dashed">
+            <h2
+                class="section-title font-heading font-bold text-5xl md:text-7xl text-vp-red mb-16 relative pb-6 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-24 after:h-1 after:bg-gradient-to-r after:from-vp-gold after:to-transparent">
+                Di Sản Văn Hóa Việt</h2>
+            <div class="content-grid grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="text-col" data-speed="1.1">
+                    <p class="text-lg text-justify mb-6 font-light">Giữa nhịp sống hiện đại của Hà Nội, <strong>Làng lụa
+                            Vạn
+                            Phúc</strong> vẫn vang lên tiếng khung cửi, bền bỉ gìn giữ một nghề thủ công đã tồn tại hơn
+                        nghìn năm.</p>
+                    <div
+                        class="highlight-box bg-white/80 p-8 border-l-4 border-vp-red shadow-lg rounded-r-lg font-script text-2xl text-gray-700 my-8 relative overflow-hidden">
                         "Lụa vì thế không đơn thuần là sản phẩm, mà là ngôn ngữ kể chuyện về bàn tay lao động."
+                        <div
+                            class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer opacity-50">
+                        </div>
                     </div>
                 </div>
-                <div class="img-col" data-speed="0.9">
-                    <div class="img-wrapper"><img src="./img/ẢNH 2.png" alt="Làng lụa"></div>
-                    <div class="img-caption">Vẻ đẹp trường tồn qua thời gian</div>
+                <div class="img-col relative group" data-speed="0.9">
+                    <div
+                        class="img-wrapper overflow-hidden rounded-md shadow-silk transition-all duration-700 group-hover:-translate-y-2 group-hover:shadow-glow">
+                        <img src="img/ẢNH 2.png" alt="Làng lụa xưa"
+                            class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="mt-4 text-center italic text-gray-500 font-script text-xl">Vẻ đẹp trường tồn qua thời
+                        gian</div>
                 </div>
             </div>
         </section>
 
-        <section id="history" class="section">
-            <h2 class="section-title">Hành Trình Lịch Sử</h2>
-            <div class="content-grid">
-                <div class="img-col" data-speed="0.9">
-                    <div class="img-wrapper"><img src="./img/ẢNH 1.png" alt="Nghệ nhân"></div>
-                    <div class="img-caption">Nghệ nhân bên khung cửi truyền thống</div>
+        <section id="history"
+            class="section min-h-screen py-32 px-8 md:px-16 flex flex-col justify-center border-b border-vp-gold/20 border-dashed">
+            <h2
+                class="section-title font-heading font-bold text-5xl md:text-7xl text-vp-red mb-16 relative pb-6 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-24 after:h-1 after:bg-gradient-to-r after:from-vp-gold after:to-transparent">
+                Hành Trình Lịch Sử</h2>
+            <div class="content-grid grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="img-col relative order-2 md:order-1 group" data-speed="0.9">
+                    <div
+                        class="img-wrapper overflow-hidden rounded-md shadow-silk transition-all duration-700 group-hover:-translate-y-2 group-hover:shadow-glow">
+                        <img src="img/ẢNH 1.png" alt="Nghệ nhân"
+                            class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
+                    <div class="mt-4 text-center italic text-gray-500 font-script text-xl">Nghệ nhân bên khung cửi
+                        truyền thống</div>
                 </div>
-                <div class="text-col" data-speed="1.15">
-                    <p>Làng lụa Vạn Phúc là một trong những làng nghề dệt lụa cổ nhất ở Việt Nam. Theo truyền thuyết,
-                        nghề dệt lụa bắt nguồn từ tổ nghề <strong>A La Đệ Nương</strong>.</p>
+                <div class="text-col order-1 md:order-2" data-speed="1.1">
+                    <p class="text-lg text-justify mb-6 font-light">Làng lụa Vạn Phúc là một trong những làng nghề dệt
+                        lụa cổ nhất
+                        ở Việt Nam. Theo truyền thuyết, nghề dệt lụa bắt nguồn từ tổ nghề <strong>A La Đệ
+                            Nương</strong>.</p>
+                    <p class="text-lg text-justify font-light">Trải qua các triều đại phong kiến, lụa Vạn Phúc dần khẳng
+                        định vị
+                        thế. Nhờ chất liệu mềm, bền và hoa văn tinh xảo, lụa nơi đây từng được sử dụng trong may mặc
+                        cung đình.</p>
                 </div>
             </div>
         </section>
 
-        <section id="technique" class="section">
-            <h2 class="section-title">Kỹ Thuật Dệt</h2>
-            <div class="content-grid">
-                <div class="text-col" data-speed="1.15">
-                    <p>Ở lụa Vạn Phúc, giá trị sản phẩm được tạo nên bởi chiều sâu của kỹ thuật dệt thủ công.</p>
-                    <div class="highlight-box">"Mỗi thợ lành nghề chỉ hoàn thiện được khoảng 5–7 mét lụa mỗi ngày."
+        <section id="technique"
+            class="section min-h-screen py-32 px-8 md:px-16 flex flex-col justify-center border-b border-vp-gold/20 border-dashed">
+            <h2
+                class="section-title font-heading font-bold text-5xl md:text-7xl text-vp-red mb-16 relative pb-6 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-24 after:h-1 after:bg-gradient-to-r after:from-vp-gold after:to-transparent">
+                Kỹ Thuật Dệt</h2>
+            <div class="content-grid grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="text-col" data-speed="1.1">
+                    <p class="text-lg text-justify mb-6 font-light">Ở lụa Vạn Phúc, giá trị sản phẩm được tạo nên bởi
+                        chiều sâu của
+                        kỹ thuật dệt thủ công.</p>
+                    <div
+                        class="highlight-box bg-white/80 p-8 border-l-4 border-vp-red shadow-lg rounded-r-lg font-script text-2xl text-gray-700 my-8">
+                        "Mỗi thợ lành nghề chỉ hoàn thiện được khoảng 5–7 mét lụa mỗi ngày."
                     </div>
                 </div>
-                <div class="img-col" data-speed="0.9">
-                    <div class="img-wrapper"><img src="./img/ẢNH LỤA.png" alt="Lụa"></div>
+                <div class="img-col relative group" data-speed="0.9">
+                    <div
+                        class="img-wrapper overflow-hidden rounded-md shadow-silk transition-all duration-700 group-hover:-translate-y-2 group-hover:shadow-glow">
+                        <img src="img/ẢNH LỤA.png" alt="Lụa"
+                            class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="awards" class="section">
-            <h2 class="section-title">Danh Hiệu & Vị Thế</h2>
-            <div class="content-grid">
-                <div class="img-col" data-speed="0.9">
-                    <div class="img-wrapper" style="box-shadow: none;"><img src="./img/ẢNH 3.png" alt="Logo"
-                            style="filter: none;"></div>
+        <section id="awards"
+            class="section min-h-screen py-32 px-8 md:px-16 flex flex-col justify-center border-b border-vp-gold/20 border-dashed">
+            <h2
+                class="section-title font-heading font-bold text-5xl md:text-7xl text-vp-red mb-16 relative pb-6 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-24 after:h-1 after:bg-gradient-to-r after:from-vp-gold after:to-transparent">
+                Danh Hiệu & Vị Thế</h2>
+            <div class="content-grid grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="img-col relative order-2 md:order-1 group" data-speed="0.9">
+                    <div
+                        class="img-wrapper overflow-hidden rounded-md transition-all duration-700 hover:scale-105 flex justify-center">
+                        <img src="img/ẢNH 4.png" alt="Logo" class="w-auto h-[300px] object-contain">
+                    </div>
                 </div>
-                <div class="text-col" data-speed="1.15">
-                    <p>Được công nhận là <strong>Di sản văn hóa phi vật thể quốc gia</strong> (2023) và thành viên Mạng
-                        lưới Thành phố thủ công sáng tạo thế giới (2024).</p>
+                <div class="text-col order-1 md:order-2" data-speed="1.1">
+                    <p class="text-lg text-justify mb-6 font-light">Được công nhận là <strong
+                            class="text-vp-gold text-xl">Di sản
+                            văn hóa phi vật thể quốc gia</strong> (2023) và thành viên Mạng lưới Thành phố thủ công sáng
+                        tạo thế giới (2024).</p>
+                    <ul class="space-y-4 mt-6">
+                        <li class="pl-6 border-l-2 border-vp-gold text-lg">★ 2014: Kỷ lục Việt Nam - Làng nghề lâu đời
+                            nhất</li>
+                        <li class="pl-6 border-l-2 border-vp-gold text-lg">★ 2023: Di sản văn hóa phi vật thể Quốc gia
+                        </li>
+                        <li class="pl-6 border-l-2 border-vp-gold text-lg">★ 2024: Mạng lưới thành phố sáng tạo UNESCO
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="preservation" class="section">
-            <h2 class="section-title">Dòng Tơ Không Đứt</h2>
-            <div class="content-grid">
-                <div class="text-col" data-speed="1.15">
-                    <p>Tại Làng lụa Vạn Phúc, truyền nghề là sự trao gửi âm thầm của tinh thần nghề.</p>
-                    <div class="highlight-box">"Giữ gìn nghề lụa không chỉ để lưu giữ quá khứ, mà để di sản tiếp tục
-                        sống."</div>
+        <section id="preservation" class="section min-h-screen py-32 px-8 md:px-16 flex flex-col justify-center">
+            <h2
+                class="section-title font-heading font-bold text-5xl md:text-7xl text-vp-red mb-16 relative pb-6 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-24 after:h-1 after:bg-gradient-to-r after:from-vp-gold after:to-transparent">
+                Dòng Tơ Không Đứt</h2>
+            <div class="content-grid grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="text-col" data-speed="1.1">
+                    <p class="text-lg text-justify mb-6 font-light">Tại Làng lụa Vạn Phúc, truyền nghề là sự trao gửi âm
+                        thầm của
+                        tinh thần nghề.</p>
+                    <div
+                        class="highlight-box bg-white/80 p-8 border-l-4 border-vp-red shadow-lg rounded-r-lg font-script text-2xl text-gray-700 my-8">
+                        "Giữ gìn nghề lụa không chỉ để lưu giữ quá khứ, mà để di sản tiếp tục sống."
+                    </div>
                 </div>
-                <div class="img-col" data-speed="0.9">
-                    <div class="img-wrapper"><img src="./img/ẢNH 5.jpg" alt="Truyền nghề"></div>
+                <div class="img-col relative group" data-speed="0.9">
+                    <div
+                        class="img-wrapper overflow-hidden rounded-md shadow-silk transition-all duration-700 group-hover:-translate-y-2 group-hover:shadow-glow">
+                        <img src="img/ẢNH 5.jpg" alt="Truyền nghề"
+                            class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105">
+                    </div>
                 </div>
             </div>
         </section>
 
-        <footer
-            style="padding: 80px 20px; text-align: center; background: #fff; border-top: 1px solid rgba(184, 134, 11, 0.2); position: relative; z-index: 2;">
-            <h3 style="color: var(--heading-color); margin-bottom: 25px; letter-spacing: 3px;">VAN PHUC SILK VILLAGE
-            </h3>
-            <p style="font-family: 'Playfair Display'; font-style: italic; color: #666; font-size: 1.1rem;">"Lụa Vạn
-                Phúc không chỉ được dệt từ tơ, mà từ ký ức..."</p>
-            <p style="margin-top: 40px; font-size: 0.9rem; color: #999;">© 2026 Designed with Passion & Heritage</p>
+        <footer class="py-24 px-8 text-center bg-white border-t border-vp-gold/20 relative z-20">
+            <div class="mb-16">
+                <h3 class="font-heading font-bold text-4xl text-vp-red mb-4 tracking-widest">VAN PHUC SILK VILLAGE</h3>
+                <p class="font-script text-2xl text-gray-600 animate-float">"Lụa Vạn Phúc không chỉ được dệt từ tơ, mà
+                    từ ký ức..."</p>
+            </div>
+
+            <div class="max-w-6xl mx-auto border-t-2 border-double border-vp-gold/30 pt-16 mb-12">
+                <h4 class="font-heading text-2xl text-vp-gold mb-12 font-bold tracking-widest">THÀNH VIÊN THỰC HIỆN</h4>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div
+                        class="member p-6 bg-vp-cream rounded-lg shadow-xl border-2 border-vp-gold transform hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-vp-gold text-white text-xs px-2 py-1 rounded-bl">LEADER
+                        </div>
+                        <div
+                            class="w-20 h-20 bg-vp-red text-white rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-3xl font-bold shadow-md ring-4 ring-vp-gold/20">
+                            VP</div>
+                        <p class="font-heading font-bold text-vp-dark text-xl mb-1">Vũ Thu Phương</p>
+                        <p class="text-sm font-bold text-vp-gold uppercase tracking-wider">Trưởng Nhóm</p>
+                    </div>
+
+                    <div
+                        class="member p-6 bg-white rounded-lg shadow-md border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div
+                            class="w-16 h-16 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-2xl font-bold">
+                            NQ</div>
+                        <p class="font-heading font-bold text-vp-dark text-xl mb-1">Nguyễn Đắc Quyền</p>
+                        <p class="text-sm text-gray-500 italic">Thành Viên</p>
+                    </div>
+
+                    <div
+                        class="member p-6 bg-white rounded-lg shadow-md border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div
+                            class="w-16 h-16 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-2xl font-bold">
+                            TV</div>
+                        <p class="font-heading font-bold text-vp-dark text-xl mb-1">Nguyễn Thị Trà Vinh</p>
+                        <p class="text-sm text-gray-500 italic">Thành Viên</p>
+                    </div>
+
+                    <div
+                        class="member p-6 bg-white rounded-lg shadow-md border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div
+                            class="w-16 h-16 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-2xl font-bold">
+                            VH</div>
+                        <p class="font-heading font-bold text-vp-dark text-xl mb-1">Vũ Thị Hồng</p>
+                        <p class="text-sm text-gray-500 italic">Thành Viên</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-sm text-gray-400 tracking-wider">© 2026 Developed with Passion & Heritage</p>
         </footer>
 
     </div>
@@ -732,133 +405,31 @@
     <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
     <script src="https://unpkg.com/gsap@3.12.2/dist/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-
     <script>
         gsap.registerPlugin(ScrollTrigger);
+        let lenis; try { lenis = new Lenis({ duration: 1.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) }); function raf(time) { lenis.raf(time); requestAnimationFrame(raf); } requestAnimationFrame(raf); } catch (e) { }
+        const loaderPercent = document.querySelector(".loader-percent"); const progressbar = document.getElementById("progress"); const loader = document.getElementById("loader"); let loadValue = 0;
+        function updateLoader() { loadValue++; loaderPercent.textContent = loadValue + "%"; progressbar.style.width = loadValue + "%"; if (loadValue < 100) { requestAnimationFrame(updateLoader); } else { setTimeout(() => { gsap.to(loader, { opacity: 0, duration: 0.8, onComplete: () => loader.style.display = "none" }); revealHero(); }, 500); } } setTimeout(updateLoader, 30);
+        gsap.to(".scroll-progress", { width: "100%", ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 0.3 } });
 
-        let lenis;
-        try {
-            lenis = new Lenis({ duration: 1.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-            requestAnimationFrame(raf);
-        } catch (e) { console.warn("Lenis init failed", e); }
-
-        const loaderPercent = document.querySelector(".loader-percent");
-        const progressbar = document.getElementById("progress");
-        const loader = document.getElementById("loader");
-        let loadValue = 0;
-
-        function updateLoader() {
-            loadValue++;
-            loaderPercent.textContent = loadValue + "%";
-            progressbar.style.width = loadValue + "%";
-
-            if (loadValue < 100) {
-                requestAnimationFrame(updateLoader);
-            } else {
-                setTimeout(() => {
-                    gsap.to(loader, { opacity: 0, duration: 0.8, onComplete: () => loader.style.display = "none" });
-                    revealHero();
-                }, 500);
-            }
-        }
-        setTimeout(updateLoader, 50);
-
-        gsap.to(".scroll-progress-bar", {
-            width: "100%",
-            ease: "none",
-            scrollTrigger: {
-                trigger: "body",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 0.3
-            }
-        });
-
-        const cursor = document.querySelector(".cursor-trail");
-        const followers = document.querySelectorAll(".cursor-follower");
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-
+        // CẬP NHẬT LOGIC CON TRỎ CHUỘT
+        const cursor = document.getElementById("cursor"); const trails = document.querySelectorAll(".cursor-trail"); let mouseX = 0, mouseY = 0; let cursorX = 0, cursorY = 0;
         window.addEventListener("mousemove", (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            gsap.to(cursor, { opacity: 1, duration: 0.2 });
-            followers.forEach(f => gsap.to(f, { opacity: 0.6, duration: 0.2 }));
+            // Xoay nhẹ con thoi theo hướng di chuyển (-10 là góc chuẩn của icon mới)
+            const rotate = -10 + (e.movementX * 1.5);
+            gsap.to(cursor, { rotation: rotate, duration: 0.2 });
         });
+        function animateCursor() { cursorX += (mouseX - cursorX) * 0.15; cursorY += (mouseY - cursorY) * 0.15; gsap.set(cursor, { left: mouseX, top: mouseY }); trails.forEach((trail, i) => { gsap.to(trail, { left: mouseX, top: mouseY, duration: 0.2 + (i * 0.05), x: -15 - (i * 8), y: 15 + (i * 8), ease: "power2.out" }); }); requestAnimationFrame(animateCursor); } animateCursor();
 
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            gsap.set(cursor, { x: cursorX, y: cursorY });
-
-            followers.forEach((follower, index) => {
-                gsap.to(follower, {
-                    x: mouseX,
-                    y: mouseY,
-                    duration: 0.6 + (index * 0.1),
-                    ease: "power2.out"
-                });
-            });
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        document.addEventListener("mouseleave", () => {
-            gsap.to(cursor, { opacity: 0, duration: 0.5 });
-            followers.forEach(f => gsap.to(f, { opacity: 0, duration: 0.5 }));
-        });
-
-        function revealHero() {
-            const tl = gsap.timeline();
-            tl.to(".hero-title-small", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=0.5")
-                .to(".hero-title-large", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2")
-                .to(".hero-subtitle-group", { opacity: 1, duration: 1.5 }, "-=1.2")
-                .to(".hero-quote", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2");
-        }
-
-        if (document.querySelector(".hero-bg")) {
-            gsap.to(".hero-bg", {
-                scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-                y: 200, scale: 1.1
-            });
-        }
-
-        document.querySelectorAll('[data-speed]').forEach(el => {
-            const speed = el.getAttribute('data-speed');
-            gsap.to(el, {
-                y: (i, target) => ScrollTrigger.maxScroll(window) * speed * 0.05,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-        });
-
-        const sections = document.querySelectorAll("section");
-        const navLi = document.querySelectorAll(".nav-item");
-        window.addEventListener("scroll", () => {
-            let current = "";
-            sections.forEach((section) => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 400) { current = section.getAttribute("id"); }
-            });
-            navLi.forEach((li) => {
-                li.classList.remove("active");
-                if (li.getAttribute("href").includes(current)) { li.classList.add("active"); }
-            });
-        });
-
-        document.querySelectorAll(".text-col").forEach(text => {
-            gsap.from(text, { scrollTrigger: { trigger: text, start: "top 85%" }, opacity: 0, y: 60, scale: 0.95, duration: 1.5, ease: "power4.out" });
-        });
-        document.querySelectorAll(".img-wrapper").forEach(img => {
-            gsap.from(img, { scrollTrigger: { trigger: img, start: "top 85%" }, opacity: 0, y: 80, scale: 1.05, duration: 1.5, delay: 0.2, ease: "power4.out" });
-        });
-
+        function revealHero() { const tl = gsap.timeline(); tl.to(".hero-title-small", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=0.5").to(".hero-title-large", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2").to(".hero-subtitle-group", { opacity: 1, duration: 1.5 }, "-=1.2").to(".hero-quote", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2"); }
+        if (document.querySelector(".hero-bg")) { gsap.to(".hero-bg", { scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }, y: 200, scale: 1.2 }); }
+        document.querySelectorAll('[data-speed]').forEach(el => { const speed = el.getAttribute('data-speed'); gsap.to(el, { y: (i, target) => ScrollTrigger.maxScroll(window) * speed * 0.05, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true } }); });
+        const sections = document.querySelectorAll("section"); const navLi = document.querySelectorAll(".nav-item");
+        window.addEventListener("scroll", () => { let current = ""; sections.forEach((section) => { const sectionTop = section.offsetTop; if (scrollY >= sectionTop - 400) { current = section.getAttribute("id"); } }); navLi.forEach((li) => { if (li.getAttribute("href").includes(current)) { li.classList.add("text-vp-red", "font-bold", "translate-x-3"); li.querySelector("span").classList.remove("opacity-0"); } else { li.classList.remove("text-vp-red", "font-bold", "translate-x-3"); li.querySelector("span").classList.add("opacity-0"); } }); });
+        document.querySelectorAll(".text-col").forEach(text => { gsap.from(text, { scrollTrigger: { trigger: text, start: "top 85%" }, opacity: 0, y: 60, duration: 1.5, ease: "power4.out" }); });
+        document.querySelectorAll(".img-wrapper").forEach(img => { gsap.from(img, { scrollTrigger: { trigger: img, start: "top 85%" }, opacity: 0, y: 80, duration: 1.5, delay: 0.2, ease: "power4.out" }); });
     </script>
 </body>
 
