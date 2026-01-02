@@ -51,32 +51,26 @@
     <style>
         body {
             cursor: none;
+            /* Ẩn con trỏ mặc định */
         }
 
-        /* --- CON TRỎ CHUỘT: CUỘN LỤA VÀNG (MÔ PHỎNG ẢNH GỬI) --- */
+        /* --- CON TRỎ CHUỘT MỚI: MŨI TÊN VÀNG KIM LOẠI --- */
         #cursor {
             position: fixed;
             z-index: 9999;
             pointer-events: none;
-            width: 60px;
-            height: 60px;
+            width: 32px;
+            /* Kích thước chuẩn cho con trỏ mũi tên */
+            height: 32px;
 
-            /* SVG MỚI: Vẽ lại hình cuộn vải (Scroll) 
-               - Phần cuộn tròn bên phải.
-               - Phần vải trải ra bên trái.
-               - Họa tiết cành cây/hoa văn trên vải.
-               - Màu sắc: Gold (#FFD700, #DAA520).
-            */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFD700;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23DAA520;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3C!-- Phần vải trải ra --%3E%3Cpath d='M10 12 H50 V52 H10 Q14 32 10 12 Z' fill='url(%23grad)' stroke='%23B8860B' stroke-width='1'/%3E%3C!-- Họa tiết cành cây trên vải --%3E%3Cpath d='M20 52 Q25 40 35 35 M35 35 L45 30 M35 35 L42 42 M20 25 L30 30' stroke='%23FDFBF7' stroke-width='2' stroke-linecap='round' fill='none' opacity='0.6'/%3E%3C!-- Trục cuộn bên phải --%3E%3Crect x='48' y='8' width='10' height='48' rx='3' fill='%23B8860B'/%3E%3Crect x='50' y='10' width='6' height='44' rx='2' fill='%23FFD700'/%3E%3C!-- Đầu trục gỗ --%3E%3Crect x='51' y='4' width='4' height='4' fill='%238B4513'/%3E%3Crect x='51' y='56' width='4' height='4' fill='%238B4513'/%3E%3C/svg%3E");
+            /* SVG tạo hình mũi tên vàng 3D, có bóng đổ */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFF6D5'/%3E%3Cstop offset='50%25' stop-color='%23EACB8A'/%3E%3Cstop offset='100%25' stop-color='%23C9A24D'/%3E%3C/linearGradient%3E%3Cfilter id='dropShadow'%3E%3CfeDropShadow dx='1' dy='1' stdDeviation='1' flood-opacity='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M2 2 L10 21 L13 13 L21 10 L2 2 Z' fill='url(%23gold)' stroke='white' stroke-width='1' filter='url(%23dropShadow)'/%3E%3C/svg%3E");
 
             background-size: contain;
             background-repeat: no-repeat;
-            /* Xoay nhẹ để giống tư thế đang cầm hoặc trải ra */
-            transform: translate(-50%, -50%) rotate(-10deg);
-            transition: transform 0.15s ease-out;
 
-            /* Hiệu ứng phát sáng vàng */
-            filter: drop-shadow(2px 4px 6px rgba(184, 134, 11, 0.4));
+            /* Không xoay, không căn giữa (-50%) vì mũi tên cần trỏ bằng đầu nhọn góc trên trái */
+            transform: translate(0, 0);
         }
 
         .cursor-trail {
@@ -86,6 +80,7 @@
             border-radius: 50%;
             background: rgba(255, 215, 0, 0.2);
             transform: translate(-50%, -50%);
+            /* Vệt sáng vẫn căn giữa */
             transition: all 0.1s ease-out;
             filter: blur(4px);
         }
@@ -122,8 +117,8 @@
     class="bg-vp-cream text-vp-dark font-body leading-loose selection:bg-vp-gold selection:text-white overflow-x-hidden">
 
     <div id="cursor"></div>
-    <div class="cursor-trail w-10 h-10 border border-vp-gold/30"></div>
-    <div class="cursor-trail w-6 h-6 bg-vp-gold/10"></div>
+    <div class="cursor-trail w-8 h-8 border border-vp-gold/30"></div>
+    <div class="cursor-trail w-4 h-4 bg-vp-gold/10"></div>
 
     <div class="fixed inset-0 pointer-events-none -z-10 flex flex-col h-full justify-between overflow-hidden">
         <div class="wave-bg h-40 animate-wave opacity-30"></div>
@@ -412,16 +407,40 @@
         function updateLoader() { loadValue++; loaderPercent.textContent = loadValue + "%"; progressbar.style.width = loadValue + "%"; if (loadValue < 100) { requestAnimationFrame(updateLoader); } else { setTimeout(() => { gsap.to(loader, { opacity: 0, duration: 0.8, onComplete: () => loader.style.display = "none" }); revealHero(); }, 500); } } setTimeout(updateLoader, 30);
         gsap.to(".scroll-progress", { width: "100%", ease: "none", scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 0.3 } });
 
-        // CẬP NHẬT LOGIC CON TRỎ CHUỘT
-        const cursor = document.getElementById("cursor"); const trails = document.querySelectorAll(".cursor-trail"); let mouseX = 0, mouseY = 0; let cursorX = 0, cursorY = 0;
+        // CẬP NHẬT LOGIC CON TRỎ CHUỘT (MŨI TÊN)
+        const cursor = document.getElementById("cursor");
+        const trails = document.querySelectorAll(".cursor-trail");
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
         window.addEventListener("mousemove", (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            // Xoay nhẹ con thoi theo hướng di chuyển (-10 là góc chuẩn của icon mới)
-            const rotate = -10 + (e.movementX * 1.5);
-            gsap.to(cursor, { rotation: rotate, duration: 0.2 });
+            // Đã xóa phần xoay (rotation) vì mũi tên kim loại cứng không nên uốn éo như lụa
         });
-        function animateCursor() { cursorX += (mouseX - cursorX) * 0.15; cursorY += (mouseY - cursorY) * 0.15; gsap.set(cursor, { left: mouseX, top: mouseY }); trails.forEach((trail, i) => { gsap.to(trail, { left: mouseX, top: mouseY, duration: 0.2 + (i * 0.05), x: -15 - (i * 8), y: 15 + (i * 8), ease: "power2.out" }); }); requestAnimationFrame(animateCursor); } animateCursor();
+
+        function animateCursor() {
+            // Hiệu ứng đuổi theo mượt mà
+            cursorX += (mouseX - cursorX) * 0.2; // Tăng tốc độ một chút cho mũi tên nhạy hơn
+            cursorY += (mouseY - cursorY) * 0.2;
+
+            // Di chuyển mũi tên (vị trí top-left khớp với chuột)
+            gsap.set(cursor, { left: cursorX, top: cursorY });
+
+            // Di chuyển vệt sáng phía sau (vẫn giữ hiệu ứng trễ)
+            trails.forEach((trail, i) => {
+                gsap.to(trail, {
+                    left: cursorX, // Dùng cursorX để vệt sáng bám theo mũi tên
+                    top: cursorY,
+                    duration: 0.2 + (i * 0.05),
+                    x: 10, // Điều chỉnh vị trí vệt sáng lệch một chút so với mũi tên
+                    y: 10,
+                    ease: "power2.out"
+                });
+            });
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
 
         function revealHero() { const tl = gsap.timeline(); tl.to(".hero-title-small", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=0.5").to(".hero-title-large", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2").to(".hero-subtitle-group", { opacity: 1, duration: 1.5 }, "-=1.2").to(".hero-quote", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2"); }
         if (document.querySelector(".hero-bg")) { gsap.to(".hero-bg", { scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }, y: 200, scale: 1.2 }); }
