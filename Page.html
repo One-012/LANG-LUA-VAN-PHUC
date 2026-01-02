@@ -54,7 +54,6 @@
             overflow-x: hidden;
         }
 
-        /* --- CON TRỎ CHUỘT --- */
         #cursor {
             position: fixed;
             z-index: 9999;
@@ -104,7 +103,6 @@
             background: transparent;
         }
 
-        /* --- CSS CHO HỘP VĂN BẢN CUỘN RIÊNG BIỆT --- */
         .scrollable-text-box {
             overflow-y: auto;
             padding-right: 1.5rem;
@@ -131,14 +129,17 @@
             line-height: 1.8;
             text-align: justify;
         }
+
+       
+        .text-glow-strong {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 215, 0, 0.4);
+        }
     </style>
 </head>
 
 <body class="bg-vp-cream text-vp-dark font-body leading-loose selection:bg-vp-gold selection:text-white">
 
     <div id="cursor"></div>
-    <div class="cursor-trail w-8 h-8 border border-vp-gold/30"></div>
-    <div class="cursor-trail w-4 h-4 bg-vp-gold/10"></div>
 
     <div class="fixed inset-0 pointer-events-none -z-10 flex flex-col h-full justify-between overflow-hidden">
         <div class="wave-bg h-40 animate-wave opacity-30"></div>
@@ -199,23 +200,26 @@
                     class="w-full h-full object-cover object-left md:object-center scale-110">
             </div>
 
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-vp-cream/90"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-vp-cream/80"></div>
 
             <div class="hero-content relative z-10 w-full md:w-[60%] px-8 text-center flex flex-col items-center">
                 <h2
-                    class="hero-title-small font-script text-3xl md:text-5xl text-vp-red font-bold mb-2 opacity-0 -rotate-2 drop-shadow-md">
+                    class="hero-title-small font-script text-3xl md:text-5xl text-vp-red font-bold mb-2 opacity-0 -rotate-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">
                     Làng Lụa</h2>
 
                 <h1
-                    class="hero-title-large font-heading text-6xl md:text-[7.5rem] text-vp-red font-bold leading-none whitespace-normal md:whitespace-nowrap drop-shadow-lg mb-6 opacity-0 uppercase tracking-wide">
+                    class="hero-title-large font-heading text-6xl md:text-[7.5rem] text-vp-red font-bold leading-none whitespace-normal md:whitespace-nowrap drop-shadow-[0_0_15px_rgba(255,255,255,0.7)] text-glow-strong mb-6 opacity-0 uppercase tracking-wide">
                     VẠN PHÚC
                 </h1>
 
                 <div class="hero-subtitle-group relative inline-block px-12 mb-10 opacity-0">
-                    <div class="absolute top-1/2 left-0 w-12 h-[1px] bg-vp-gold"></div>
-                    <div class="font-heading text-xl md:text-3xl text-gray-800 italic drop-shadow-sm">Di sản văn hoá
-                        Việt & Nghệ thuật dệt lụa</div>
-                    <div class="absolute top-1/2 right-0 w-12 h-[1px] bg-vp-gold"></div>
+                    <div class="absolute top-1/2 left-0 w-12 h-[1px] bg-vp-gold shadow-[0_0_5px_rgba(255,215,0,0.8)]">
+                    </div>
+                    <div
+                        class="font-heading text-xl md:text-3xl text-gray-800 italic drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                        Di sản văn hoá Việt & Nghệ thuật dệt lụa</div>
+                    <div class="absolute top-1/2 right-0 w-12 h-[1px] bg-vp-gold shadow-[0_0_5px_rgba(255,215,0,0.8)]">
+                    </div>
                 </div>
             </div>
         </section>
@@ -546,13 +550,6 @@
         function revealHero() { const tl = gsap.timeline(); tl.to(".hero-title-small", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=0.5").to(".hero-title-large", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2").to(".hero-subtitle-group", { opacity: 1, duration: 1.5 }, "-=1.2").to(".hero-quote", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1.2"); }
         if (document.querySelector(".hero-bg")) { gsap.to(".hero-bg", { scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }, y: 200, scale: 1.2 }); }
 
-        // ĐÃ SỬA: Giảm hệ số tốc độ (0.015) để ảnh chỉ trôi RẤT NHẸ, không bị chìm
-        document.querySelectorAll('[data-speed]').forEach(el => {
-            if (!el.classList.contains('scrollable-text-box')) {
-                const speed = el.getAttribute('data-speed');
-                gsap.to(el, { y: (i, target) => ScrollTrigger.maxScroll(window) * speed * 0.015, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true } });
-            }
-        });
 
         const sections = document.querySelectorAll("section"); const navLi = document.querySelectorAll(".nav-item");
         window.addEventListener("scroll", () => { let current = ""; sections.forEach((section) => { const sectionTop = section.offsetTop; if (scrollY >= sectionTop - 400) { current = section.getAttribute("id"); } }); navLi.forEach((li) => { if (li.getAttribute("href").includes(current)) { li.classList.add("text-vp-red", "font-bold", "border-b-2", "border-vp-red"); } else { li.classList.remove("text-vp-red", "font-bold", "border-b-2", "border-vp-red"); } }); });
