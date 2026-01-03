@@ -454,13 +454,13 @@
 
         <section id="video-showcase"
             class="section min-h-[80vh] py-20 px-8 md:px-16 flex items-center justify-center border-b border-vp-gold/20 border-dashed relative overflow-hidden">
-
+        
             <div class="absolute inset-0 w-full h-full z-0">
                 <img src="img/ẢNH LỤA 2.jpg" alt="Nền lụa treo" class="w-full h-full object-cover opacity-80">
                 <div class="absolute inset-0 bg-vp-cream/90 mix-blend-overlay"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-vp-cream via-vp-cream/80 to-vp-cream"></div>
             </div>
-
+        
             <div class="video-wrapper relative w-full max-w-5xl mx-auto z-20 group">
                 <div class="absolute -inset-4 md:-inset-8 pointer-events-none">
                     <svg width="100%" height="100%" viewBox="0 0 400 250" preserveAspectRatio="none"
@@ -475,34 +475,50 @@
                         <path d="M10,10 Q200,-20 390,10 Q420,125 390,240 Q200,270 10,240 Q-20,125 10,10 Z" fill="none"
                             stroke="url(#silkFrameGrad)" stroke-width="4" />
                         <path d="M0,40 Q0,0 40,0" fill="none" stroke="#FFD700" stroke-width="2" class="opacity-80" />
-                        <path d="M360,0 Q400,0 400,40" fill="none" stroke="#FFD700" stroke-width="2"
-                            class="opacity-80" />
-                        <path d="M400,210 Q400,250 360,250" fill="none" stroke="#FFD700" stroke-width="2"
-                            class="opacity-80" />
-                        <path d="M40,250 Q0,250 0,210" fill="none" stroke="#FFD700" stroke-width="2"
-                            class="opacity-80" />
+                        <path d="M360,0 Q400,0 400,40" fill="none" stroke="#FFD700" stroke-width="2" class="opacity-80" />
+                        <path d="M400,210 Q400,250 360,250" fill="none" stroke="#FFD700" stroke-width="2" class="opacity-80" />
+                        <path d="M40,250 Q0,250 0,210" fill="none" stroke="#FFD700" stroke-width="2" class="opacity-80" />
                     </svg>
                 </div>
-
-                <div
-                    class="relative overflow-hidden rounded-lg shadow-2xl border border-vp-gold/30 h-[400px] md:h-[600px]">
+        
+                <div class="relative overflow-hidden rounded-lg shadow-2xl border border-vp-gold/30 h-[400px] md:h-[600px]">
                     <div id="youtube-player" class="w-full h-full"></div>
-
-                    <button id="videoMuteBtn"
-                        class="absolute bottom-6 right-6 z-30 bg-black/60 hover:bg-vp-gold text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/30">
-                        <svg id="iconVideoMute" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-                        </svg>
-                        <svg id="iconVideoUnmute" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                        </svg>
-                    </button>
+        
+                    <div class="absolute bottom-6 right-6 z-30 flex gap-4">
+        
+                        <button id="videoPlayBtn"
+                            class="bg-black/60 hover:bg-vp-gold text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/30 group-btn">
+                            <svg id="iconVideoPlay" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <svg id="iconVideoPause" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </button>
+        
+                        <button id="videoMuteBtn"
+                            class="bg-black/60 hover:bg-vp-gold text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 border border-white/30 group-btn">
+                            <svg id="iconVideoMute" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                            </svg>
+                            <svg id="iconVideoUnmute" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                            </svg>
+                        </button>
+                    </div>
+        
                 </div>
             </div>
         </section>

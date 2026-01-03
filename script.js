@@ -312,57 +312,124 @@ gsap.to(".cocoon-floating", {
   },
 });
 
-// --- YOUTUBE API & MUTE BUTTON LOGIC ---
+// --- YOUTUBE API, SCROLL PLAY & LOGIC ---
 // 1. Tải Youtube Iframe API
-var tag = document.createElement("script");
+var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName("script")[0];
+var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 2. Tạo player
 var player;
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player("youtube-player", {
-    height: "100%",
-    width: "100%",
-    videoId: "EsKRFrninyU", // Thay ID video của bạn vào đây
+  player = new YT.Player('youtube-player', {
+    height: '100%',
+    width: '100%',
+    videoId: 'EsKRFrninyU', // ID video
     playerVars: {
-      autoplay: 1,
-      controls: 0,
-      showinfo: 0,
-      modestbranding: 1,
-      loop: 1,
-      playlist: "EsKRFrninyU", // Cần thiết để loop hoạt động
-      mute: 1, // Mặc định tắt tiếng
-      rel: 0,
+      'autoplay': 1,      // Tự động chạy (thường cần mute mới chạy được)
+      'controls': 0,      // Ẩn control mặc định
+      'showinfo': 0,
+      'modestbranding': 1,
+      'loop': 1,
+      'playlist': 'EsKRFrninyU',
+      'mute': 1,          // Mặc định tắt tiếng để autoplay hoạt động
+      'rel': 0
     },
     events: {
-      onReady: onPlayerReady,
-    },
+      'onReady': onPlayerReady
+    }
   });
 }
 
-// 3. Xử lý sự kiện khi player sẵn sàng
+// Hàm hỗ trợ: Tắt nhạc nền web
+function pauseWebBackgroundMusic() {
+    if (isMusicPlaying) {
+        bgMusic.pause();
+        isMusicPlaying = false;
+        // Cập nhật giao diện nút nhạc nền
+        iconSoundOn.classList.add("hidden");
+        iconSoundOff.classList.remove("hidden");
+        musicBadge.classList.add("hidden");
+    }
+}
+
+// 3. Xử lý khi player sẵn sàng
 function onPlayerReady(event) {
-  event.target.playVideo();
+  // --- A. LOGIC SCROLL (Lướt tới thì chạy, lướt qua thì dừng) ---
+  const videoSection = document.getElementById('video-showcase');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      // Nếu video đang trong vùng nhìn thấy
+      if (entry.isIntersecting) {
+        // Chỉ auto-play nếu người dùng chưa bấm nút Pause thủ công (có thể thêm biến check nếu muốn chặt chẽ hơn)
+        // Ở đây để đơn giản: cứ lướt tới là chạy
+        player.playVideo();
+        updatePlayBtnIcon(true);
+      } else {
+        // Lướt qua thì dừng
+        player.pauseVideo();
+        updatePlayBtnIcon(false);
+      }
+    });
+  }, { threshold: 0.5 }); // Ít nhất 50% video hiện ra thì mới tính
 
-  // Logic cho nút bật/tắt tiếng
-  const muteBtn = document.getElementById("videoMuteBtn");
-  const iconMute = document.getElementById("iconVideoMute");
-  const iconUnmute = document.getElementById("iconVideoUnmute");
-  let isVideoMuted = true;
+  observer.observe(videoSection);
 
-  muteBtn.addEventListener("click", function () {
+  // --- B. LOGIC NÚT PLAY/PAUSE VIDEO ---
+  const playBtn = document.getElementById('videoPlayBtn');
+  const iconPlay = document.getElementById('iconVideoPlay');
+  const iconPause = document.getElementById('iconVideoPause');
+  let isVideoPlaying = true; // Mặc định đang autoplay
+
+  function updatePlayBtnIcon(playing) {
+      if (playing) {
+          iconPlay.classList.add('hidden');
+          iconPause.classList.remove('hidden');
+          isVideoPlaying = true;
+      } else {
+          iconPlay.classList.remove('hidden');
+          iconPause.classList.add('hidden');
+          isVideoPlaying = false;
+      }
+  }
+
+  playBtn.addEventListener('click', function() {
+    if (isVideoPlaying) {
+      player.pauseVideo();
+      updatePlayBtnIcon(false);
+    } else {
+      player.playVideo();
+      updatePlayBtnIcon(true);
+      // Khi người dùng chủ động bấm Play -> Tắt nhạc nền web
+      pauseWebBackgroundMusic();
+    }
+  });
+
+  // Sự kiện khi video thay đổi trạng thái (ví dụ video tự dừng do bufffering hoặc hết bài)
+  // Có thể dùng để đồng bộ nút Play/Pause chính xác hơn nếu cần.
+
+  // --- C. LOGIC NÚT MUTE/UNMUTE VIDEO ---
+  const muteBtn = document.getElementById('videoMuteBtn');
+  const iconMute = document.getElementById('iconVideoMute');
+  const iconUnmute = document.getElementById('iconVideoUnmute');
+  let isVideoMuted = true; // Mặc định playerVars mute=1
+
+  muteBtn.addEventListener('click', function() {
     if (isVideoMuted) {
       player.unMute();
       isVideoMuted = false;
-      iconMute.classList.add("hidden");
-      iconUnmute.classList.remove("hidden");
+      iconMute.classList.add('hidden');
+      iconUnmute.classList.remove('hidden');
+      
+      // Khi người dùng bật tiếng video -> Chắc chắn muốn nghe -> Tắt nhạc nền web
+      pauseWebBackgroundMusic();
     } else {
       player.mute();
       isVideoMuted = true;
-      iconMute.classList.remove("hidden");
-      iconUnmute.classList.add("hidden");
+      iconMute.classList.remove('hidden');
+      iconUnmute.classList.add('hidden');
     }
   });
 }
