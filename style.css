@@ -1,0 +1,197 @@
+/* ĐÃ SỬA: Xóa cursor: none để hiện lại chuột */
+body {
+    /* cursor: none;  <-- Đã comment dòng này lại */
+    overflow-x: hidden;
+}
+
+#cursor {
+    /* Ẩn con trỏ custom đi vì nó đang gây lỗi hiển thị */
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    width: 32px;
+    height: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFF6D5'/%3E%3Cstop offset='50%25' stop-color='%23EACB8A'/%3E%3Cstop offset='100%25' stop-color='%23C9A24D'/%3E%3C/linearGradient%3E%3Cfilter id='dropShadow'%3E%3CfeDropShadow dx='1' dy='1' stdDeviation='1' flood-opacity='0.5'/%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M2 2 L10 21 L13 13 L21 10 L2 2 Z' fill='url(%23gold)' stroke='white' stroke-width='1' filter='url(%23dropShadow)'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: translate(0, 0);
+    transition: transform 0.1s ease-out;
+}
+
+.wave-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23B8860B' stroke-width='1.5' opacity='0.35'%3E%3Cpath d='M0 0l60 60 60-60M0 120l60-60 60 60'/%3E%3Cpath d='M60 0v120M0 60h120' stroke-width='1' opacity='0.7'/%3E%3Cpath d='M30 30l30-30 30 30-30 30zM30 90l30-30 30 30-30 30z' fill='%23B8860B' fill-opacity='0.15'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 120px;
+    background-repeat: repeat;
+    width: 200%;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #B8860B;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollable-text-box {
+    overflow-y: auto;
+    padding-right: 1.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #B8860B #FDFBF7;
+}
+
+.scrollable-text-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable-text-box::-webkit-scrollbar-track {
+    background: rgba(184, 134, 11, 0.1);
+    border-radius: 3px;
+}
+
+.scrollable-text-box::-webkit-scrollbar-thumb {
+    background-color: #B8860B;
+    border-radius: 3px;
+}
+
+.scrollable-text-box p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.hero-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.golden-particle {
+    position: absolute;
+    background: radial-gradient(circle, #FFD700 20%, rgba(255, 215, 0, 0.1) 70%);
+    border-radius: 50%;
+    bottom: -10px;
+    opacity: 0;
+}
+
+.rich-silk-svg {
+    filter: drop-shadow(0px 4px 8px rgba(184, 134, 11, 0.5));
+}
+
+.sparkle-dot {
+    animation: sparkle 3s infinite alternate;
+}
+
+@keyframes sparkle {
+    0% {
+        opacity: 0.4;
+        r: 1.5;
+    }
+
+    100% {
+        opacity: 1;
+        r: 3.5; /* Tăng kích thước điểm sáng */
+        filter: drop-shadow(0 0 5px #FFF6D5); /* Tăng độ tỏa sáng */
+    }
+}
+
+.reveal-holder {
+    overflow: hidden;
+    position: relative;
+    border-radius: 0.375rem;
+    cursor: pointer;
+}
+
+.reveal-image {
+    transform: scale(1.2);
+    transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1), filter 1.8s ease;
+    filter: brightness(0.9);
+    will-change: transform, filter;
+}
+
+.reveal-holder.is-inview .reveal-image {
+    transform: scale(1);
+    filter: brightness(1);
+}
+
+.reveal-holder:hover .reveal-image {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.banner-text-shadow {
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.6); /* Tăng shadow vàng */
+}
+
+#imageModal {
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#imageModal.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+#imageModal.closed {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* --- VISUAL EFFECT STYLES (ENHANCED) --- */
+.effect-layer {
+    mix-blend-mode: normal; 
+}
+
+/* Hiệu ứng chữ phát sáng mạnh (cho năm lịch sử) */
+.glow-text-gold {
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(184, 134, 11, 0.4);
+}
+
+/* Hiệu ứng hộp phát sáng mạnh (cho chứng nhận) */
+.glow-box-gold {
+     box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.2);
+     border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+
+/* Sợi chỉ của con thoi - Sáng rực như laser */
+.shuttle-thread {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+    filter: brightness(1.5);
+}
+
+/* Font số lịch sử to bản, chìm vào nền */
+.floating-year {
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+}
+
+/* Sao rơi lấp lánh */
+.falling-star {
+    position: absolute;
+    color: #FFD700;
+    filter: drop-shadow(0 0 10px #FFD700);
+    animation: twinkle 1.5s infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.4; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
