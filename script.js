@@ -567,7 +567,7 @@ const galleries = {
     {
       src: "img/bang-ki-luc.png",
       title: "Chứng Nhận Di Sản",
-      desc: "Bằng chứng nhận Di sản văn hóa phi vật thể quốc gia, một dấu mốc quan trọng trong việc bảo tồn và phát huy giá trị làng nghề.",
+      desc: "Bằng kỉ lục “Làng nghề dệt lụa tơ tằm lâu đời nhất Việt Nam” Vạn Phúc.",
     },
     {
       src: "img/cu gia.png",
