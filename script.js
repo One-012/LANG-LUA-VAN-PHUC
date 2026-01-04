@@ -566,7 +566,7 @@ const galleries = {
     },
     {
       src: "img/bang-ki-luc.png",
-      title: "Chứng Nhận Di Sản",
+      title: "Kỷ Lục Làng Nghề",
       desc: "Bằng kỉ lục “Làng nghề dệt lụa tơ tằm lâu đời nhất Việt Nam” Vạn Phúc.",
     },
     {
