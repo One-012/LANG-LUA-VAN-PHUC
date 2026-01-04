@@ -314,88 +314,91 @@ gsap.to(".cocoon-floating", {
 
 // --- YOUTUBE API, SCROLL PLAY & LOGIC ---
 // 1. Tải Youtube Iframe API
-var tag = document.createElement('script');
+var tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
+var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 2. Tạo player
 var player;
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player('youtube-player', {
-    height: '100%',
-    width: '100%',
-    videoId: 'EsKRFrninyU', // ID video
+  player = new YT.Player("youtube-player", {
+    height: "100%",
+    width: "100%",
+    videoId: "EsKRFrninyU", // ID video
     playerVars: {
-      'autoplay': 1,      // Tự động chạy (thường cần mute mới chạy được)
-      'controls': 0,      // Ẩn control mặc định
-      'showinfo': 0,
-      'modestbranding': 1,
-      'loop': 1,
-      'playlist': 'EsKRFrninyU',
-      'mute': 1,          // Mặc định tắt tiếng để autoplay hoạt động
-      'rel': 0
+      autoplay: 1, // Tự động chạy (thường cần mute mới chạy được)
+      controls: 0, // Ẩn control mặc định
+      showinfo: 0,
+      modestbranding: 1,
+      loop: 1,
+      playlist: "EsKRFrninyU",
+      mute: 1, // Mặc định tắt tiếng để autoplay hoạt động
+      rel: 0,
     },
     events: {
-      'onReady': onPlayerReady
-    }
+      onReady: onPlayerReady,
+    },
   });
 }
 
 // Hàm hỗ trợ: Tắt nhạc nền web
 function pauseWebBackgroundMusic() {
-    if (isMusicPlaying) {
-        bgMusic.pause();
-        isMusicPlaying = false;
-        // Cập nhật giao diện nút nhạc nền
-        iconSoundOn.classList.add("hidden");
-        iconSoundOff.classList.remove("hidden");
-        musicBadge.classList.add("hidden");
-    }
+  if (isMusicPlaying) {
+    bgMusic.pause();
+    isMusicPlaying = false;
+    // Cập nhật giao diện nút nhạc nền
+    iconSoundOn.classList.add("hidden");
+    iconSoundOff.classList.remove("hidden");
+    musicBadge.classList.add("hidden");
+  }
 }
 
 // 3. Xử lý khi player sẵn sàng
 function onPlayerReady(event) {
   // --- A. LOGIC SCROLL (Lướt tới thì chạy, lướt qua thì dừng) ---
-  const videoSection = document.getElementById('video-showcase');
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      // Nếu video đang trong vùng nhìn thấy
-      if (entry.isIntersecting) {
-        // Chỉ auto-play nếu người dùng chưa bấm nút Pause thủ công (có thể thêm biến check nếu muốn chặt chẽ hơn)
-        // Ở đây để đơn giản: cứ lướt tới là chạy
-        player.playVideo();
-        updatePlayBtnIcon(true);
-      } else {
-        // Lướt qua thì dừng
-        player.pauseVideo();
-        updatePlayBtnIcon(false);
-      }
-    });
-  }, { threshold: 0.5 }); // Ít nhất 50% video hiện ra thì mới tính
+  const videoSection = document.getElementById("video-showcase");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        // Nếu video đang trong vùng nhìn thấy
+        if (entry.isIntersecting) {
+          // Chỉ auto-play nếu người dùng chưa bấm nút Pause thủ công (có thể thêm biến check nếu muốn chặt chẽ hơn)
+          // Ở đây để đơn giản: cứ lướt tới là chạy
+          player.playVideo();
+          updatePlayBtnIcon(true);
+        } else {
+          // Lướt qua thì dừng
+          player.pauseVideo();
+          updatePlayBtnIcon(false);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  ); // Ít nhất 50% video hiện ra thì mới tính
 
   observer.observe(videoSection);
 
   // --- B. LOGIC NÚT PLAY/PAUSE VIDEO ---
-  const playBtn = document.getElementById('videoPlayBtn');
-  const iconPlay = document.getElementById('iconVideoPlay');
-  const iconPause = document.getElementById('iconVideoPause');
+  const playBtn = document.getElementById("videoPlayBtn");
+  const iconPlay = document.getElementById("iconVideoPlay");
+  const iconPause = document.getElementById("iconVideoPause");
   let isVideoPlaying = true; // Mặc định đang autoplay
 
   function updatePlayBtnIcon(playing) {
-      if (playing) {
-          iconPlay.classList.add('hidden');
-          iconPause.classList.remove('hidden');
-          isVideoPlaying = true;
-      } else {
-          iconPlay.classList.remove('hidden');
-          iconPause.classList.add('hidden');
-          isVideoPlaying = false;
-      }
+    if (playing) {
+      iconPlay.classList.add("hidden");
+      iconPause.classList.remove("hidden");
+      isVideoPlaying = true;
+    } else {
+      iconPlay.classList.remove("hidden");
+      iconPause.classList.add("hidden");
+      isVideoPlaying = false;
+    }
   }
 
-  playBtn.addEventListener('click', function() {
+  playBtn.addEventListener("click", function () {
     if (isVideoPlaying) {
       player.pauseVideo();
       updatePlayBtnIcon(false);
@@ -411,25 +414,25 @@ function onPlayerReady(event) {
   // Có thể dùng để đồng bộ nút Play/Pause chính xác hơn nếu cần.
 
   // --- C. LOGIC NÚT MUTE/UNMUTE VIDEO ---
-  const muteBtn = document.getElementById('videoMuteBtn');
-  const iconMute = document.getElementById('iconVideoMute');
-  const iconUnmute = document.getElementById('iconVideoUnmute');
+  const muteBtn = document.getElementById("videoMuteBtn");
+  const iconMute = document.getElementById("iconVideoMute");
+  const iconUnmute = document.getElementById("iconVideoUnmute");
   let isVideoMuted = true; // Mặc định playerVars mute=1
 
-  muteBtn.addEventListener('click', function() {
+  muteBtn.addEventListener("click", function () {
     if (isVideoMuted) {
       player.unMute();
       isVideoMuted = false;
-      iconMute.classList.add('hidden');
-      iconUnmute.classList.remove('hidden');
-      
+      iconMute.classList.add("hidden");
+      iconUnmute.classList.remove("hidden");
+
       // Khi người dùng bật tiếng video -> Chắc chắn muốn nghe -> Tắt nhạc nền web
       pauseWebBackgroundMusic();
     } else {
       player.mute();
       isVideoMuted = true;
-      iconMute.classList.remove('hidden');
-      iconUnmute.classList.add('hidden');
+      iconMute.classList.remove("hidden");
+      iconUnmute.classList.add("hidden");
     }
   });
 }
@@ -471,8 +474,26 @@ const galleries = {
       title: "Sức Sống Đương Đại",
       desc: "Trải qua bao thăng trầm lịch sử, Vạn Phúc ngày nay không chỉ giữ được nghề cổ mà còn khoác lên mình diện mạo mới rực rỡ. Những gian hàng tấp nập là minh chứng cho sự thích ứng và sức sống bền bỉ của làng nghề trong đời sống hiện đại.",
     },
+    {
+      src: "img/nghe-nhan-den-trang.png",
+      title: "Nghệ Nhân May Đo",
+      desc: "Hình ảnh người thợ may cần mẫn bên chiếc máy khâu, góp phần tạo nên những bộ trang phục lụa tinh tế từ những tấm vải dệt thủ công.",
+    },
   ],
-  // 3. KỸ THUẬT
+  // 3. QUY MÔ (MỚI)
+  scale: [
+    {
+      src: "img/quy-mo.jpg",
+      title: "Quy Mô Làng Nghề",
+      desc: "Toàn cảnh sự phát triển mạnh mẽ của làng nghề với hàng trăm hộ kinh doanh và sản xuất, tạo nên một trung tâm lụa sầm uất bậc nhất Hà thành.",
+    },
+    {
+      src: "img/tay1.jpg", // Giả định ảnh khách tham quan
+      title: "Điểm Đến Quốc Tế",
+      desc: "Vạn Phúc không chỉ thu hút khách trong nước mà còn là điểm đến yêu thích của du khách quốc tế muốn tìm hiểu văn hóa Việt Nam.",
+    },
+  ],
+  // 4. KỸ THUẬT (CẬP NHẬT: Giữ Lụa Vân & Phơi, Thêm 8 ảnh mới)
   technique: [
     {
       src: "img/ẢNH LỤA.png",
@@ -480,23 +501,54 @@ const galleries = {
       desc: "Cận cảnh bề mặt tấm lụa Vân - đặc sản trứ danh. Các hoa văn chìm nổi tinh tế được tạo ra ngay trong quá trình dệt nhờ kỹ thuật điều khiển sợi tơ điêu luyện.",
     },
     {
-      src: "img/ken-to.jpg",
-      title: "Sợi Tơ Vàng Óng",
-      desc: "Nguyên liệu tơ tằm thượng hạng, khởi nguồn cho những tấm lụa mềm mại. Từng sợi tơ vàng như nắng được dệt nên bởi bàn tay tài hoa.",
+      src: "img/mem-mai.jpg",
+      title: "Phơi Tơ Ánh Nắng", // Giữ lại ảnh này (Lụa Phơi/Mềm mại)
+      desc: "Những dải lụa mềm mại được phơi dưới ánh nắng tự nhiên, một hình ảnh đặc trưng làm nên vẻ đẹp thơ mộng của làng nghề.",
+    },
+    // Thêm mới từ 11-18
+    {
+      src: "img/11.jpg", // 11
+      title: "Kéo Kén Ươm Tơ",
+      desc: "Công đoạn kéo kén sau khi tằm nhả tơ, đóng kén. Đây là bước khởi đầu quan trọng để thu được những sợi tơ thô chất lượng.",
     },
     {
-      src: "img/mem-mai.jpg",
-      title: "Sự Mềm Mại Tuyệt Đối",
-      desc: "Đặc tính nổi bật của lụa Vạn Phúc là sự mềm mại, mát lạnh khi chạm vào, mang lại cảm giác dễ chịu cho người mặc.",
+      src: "img/12.jpg", // 12
+      title: "Xử Lý Sợi Tơ",
+      desc: "Công đoạn xử lý sợi tơ trong kỹ thuật dệt lụa Vạn Phúc để tránh rối tơ khi dệt, đảm bảo độ bóng mượt cho sản phẩm cuối cùng.",
+    },
+    {
+      src: "img/13.png", // 13
+      title: "Kéo Sợi Vào Guồng",
+      desc: "Đầu sợi tơ được kéo ra các lõi sau khi cho vào guồng, chuẩn bị cho các công đoạn tiếp theo.",
+    },
+    {
+      src: "img/14.jpg", // 14
+      title: "Công Đoạn Mắc Cửi",
+      desc: "Sợi tơ được bố trí xen kẽ và đều tập trung trong công đoạn mắc cửi, đòi hỏi sự sắp xếp tỉ mỉ và chính xác.",
+    },
+    {
+      src: "img/15.jpg", // 15
+      title: "Nối Cửi Thủ Công",
+      desc: "Công đoạn nối cửi đòi hỏi người nối phải có kinh nghiệm, khéo léo, tỉ mỉ. Chỉ cần sai sót nhỏ thì khi dệt sẽ bị lỗi ngay lập tức.",
+    },
+    {
+      src: "img/16.jpg", // 16
+      title: "Khung Dệt Truyền Thống",
+      desc: "Sợi tơ được đưa vào khung dệt truyền thống. Tiếng thoi đưa lách cách là âm thanh quen thuộc bao đời nay của làng Vạn Phúc.",
+    },
+    {
+      src: "img/17.jpg", // 17
+      title: "Nhuộm Lụa Thủ Công",
+      desc: "Nhuộm lụa thủ công. Để có màu tấm lụa đẹp, công đoạn nhuộm và pha chế màu đòi hỏi bí quyết riêng của từng nghệ nhân.",
+    },
+    {
+      src: "img/18.jpg", // 18
+      title: "Phơi Tơ Sau Nhuộm",
+      desc: "Phơi tơ sau khi nhuộm màu. Ngày nay dù có công nghệ hỗ trợ thì việc phơi dưới nắng tự nhiên vẫn giúp lụa bền màu và đẹp nhất.",
     },
   ],
-  // 4. DANH HIỆU
+  // 5. DANH HIỆU (Đã xóa 1 ảnh kỷ lục thừa)
   awards: [
-    {
-      src: "img/bang-ki-luc.png",
-      title: "Kỷ Lục Việt Nam",
-      desc: "Bảng xác lập kỷ lục 'Làng nghề dệt lụa tơ tằm lâu đời nhất Việt Nam' trao cho làng Vạn Phúc, khẳng định lịch sử nghìn năm văn hiến.",
-    },
     {
       src: "img/don-nhan-bang-di-san.png",
       title: "Đón Nhận Bằng Di Sản",
@@ -513,17 +565,17 @@ const galleries = {
       desc: "Quang cảnh buổi lễ trang trọng công nhận làng lụa Vạn Phúc trở thành thành viên mạng lưới các thành phố thủ công sáng tạo trên thế giới.",
     },
     {
-      src: "img/chung-nhan.png",
+      src: "img/bang-ki-luc.png",
       title: "Chứng Nhận Di Sản",
       desc: "Bằng chứng nhận Di sản văn hóa phi vật thể quốc gia, một dấu mốc quan trọng trong việc bảo tồn và phát huy giá trị làng nghề.",
     },
     {
-      src: "img/tay1.jpg",
+      src: "img/cu gia.png",
       title: "Tôn Vinh Nghệ Nhân",
       desc: "Sự ghi nhận xứng đáng dành cho những đôi bàn tay vàng, những người nghệ nhân đã dành cả cuộc đời để giữ lửa nghề.",
     },
   ],
-  // 5. BẢO TỒN
+  // 6. BẢO TỒN
   preservation: [
     {
       src: "img/hoc.png",
